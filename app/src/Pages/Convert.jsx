@@ -59,7 +59,7 @@ const System = () => {
                 {
                   parts: [
                     {
-                      text: "Generate a vivid and engaging 50-word description of the image below. Focus on key visual elements such as colors, lighting, mood, composition, and notable objects or people. Use expressive and descriptive language suitable for product listings, blogs, or social media. Avoid generic phrases. Highlight what makes the image unique.",
+                      text: "Generate a vivid and engaging 15-word description of the image below. Focus on key visual elements such as colors, lighting, mood, composition, and notable objects or people. Use expressive and descriptive language suitable for product listings, blogs, or social media. Avoid generic phrases. Highlight what makes the image unique.",
                     },
                     {
                       inlineData: {
@@ -132,7 +132,7 @@ const System = () => {
   };
 
   const handleDownload = (description, index) => {
-    const header = `Description\n`;
+    const header = `Prompt\n`;
     const row = `${escapeCSV(description.description)}`;
     const csvContent = `${header}${row}`;
 
@@ -150,7 +150,7 @@ const System = () => {
   const handleDownloadAll = () => {
     if (!descriptions.length) return;
 
-    const header = ["Description"];
+    const header = ["Prompt"];
     const rows = descriptions.map((desc) => {
       const description = desc.description
         .replace(/"/g, '""')
