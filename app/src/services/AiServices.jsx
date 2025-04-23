@@ -1,5 +1,5 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { toBase64 } from "../Utils/imageUtils";
+import { toBase64 } from "../Utils/ImageUtils";
 
 const API_KEY = "AIzaSyA2XQn7HP9NpvcB_1vkxGcZ1-0UgUK4fMk";
 const genAI = new GoogleGenerativeAI(API_KEY);
