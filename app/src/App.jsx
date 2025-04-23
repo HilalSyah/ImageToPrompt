@@ -7,7 +7,7 @@ import ImagePreviews from "./components/ImagePreviews";
 import DescriptionsList from "./components/DescriptionList";
 import PromptSelector from "./components/PromptSelector";
 import { processFilesInBatches } from "./services/AiServices";
-import { escapeCSV } from "./utils/imageUtils.jsx";
+import { escapeCSV } from "./utils/imageUtils";
 
 const App = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
