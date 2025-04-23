@@ -7,7 +7,7 @@ import ImagePreviews from "./components/ImagePreviews";
 import DescriptionsList from "./components/DescriptionList";
 import PromptSelector from "./components/PromptSelector";
 import { processFilesInBatches } from "./services/AiServices";
-import { escapeCSV } from "./utils/imageUtils";
+import { escapeCSV } from "./Download/ImageUtils";
 
 const App = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -100,9 +100,7 @@ const App = () => {
 
     const header = ["prompt"];
     const rows = descriptions.map((desc) => {
-      const description = desc.description
-        .replace(/"/g, '""')
-        .replace(/\n/g, " ");
+      const description = desc.description.replace(/"/g, '""').replace(/\n/g, " ");
       return `"${description}"`;
     });
 
@@ -119,27 +117,16 @@ const App = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-purple-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="container mx-auto max-w-4xl bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-xl">
-        <h1 className="text-4xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-          AI Bulk Image Description Generator
-        </h1>
+        <h1 className="text-4xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">AI Bulk Image Description Generator</h1>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="bg-gray-50 p-6 rounded-xl shadow-inner">
-            <PromptSelector
-              selectedPrompt={selectedPrompt}
-              setSelectedPrompt={setSelectedPrompt}
-              customPrompt={customPrompt}
-              setCustomPrompt={setCustomPrompt}
-            />
+            <PromptSelector selectedPrompt={selectedPrompt} setSelectedPrompt={setSelectedPrompt} customPrompt={customPrompt} setCustomPrompt={setCustomPrompt} />
           </div>
-          
+
           <div className="flex items-center gap-4">
-            <ImageUploader 
-              isLoading={isLoading} 
-              handleFileChange={handleFileChange} 
-              selectedFiles={selectedFiles} 
-            />
-            
+            <ImageUploader isLoading={isLoading} handleFileChange={handleFileChange} selectedFiles={selectedFiles} />
+
             {descriptions.length > 0 && (
               <DownloadButton onClick={handleDownloadAll} className="self-end">
                 Download All
@@ -147,19 +134,12 @@ const App = () => {
             )}
           </div>
 
-          <SubmitButton 
-            isLoading={isLoading} 
-            disabled={isLoading || !selectedFiles.length || !selectedPrompt || (selectedPrompt === "custom" && !customPrompt.trim())} 
-          />
+          <SubmitButton isLoading={isLoading} disabled={isLoading || !selectedFiles.length || !selectedPrompt || (selectedPrompt === "custom" && !customPrompt.trim())} />
         </form>
 
         <ErrorMessage error={error} />
         <ImagePreviews previewUrls={previewUrls} isLoading={isLoading} />
-        <DescriptionsList 
-          descriptions={descriptions} 
-          isLoading={isLoading} 
-          onDownload={handleDownload} 
-        />
+        <DescriptionsList descriptions={descriptions} isLoading={isLoading} onDownload={handleDownload} />
       </div>
     </div>
   );

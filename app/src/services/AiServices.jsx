@@ -1,5 +1,5 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { toBase64 } from "../utils/imageUtils";
+import { toBase64 } from "../Utils/imageUtils";
 
 const API_KEY = "AIzaSyA2XQn7HP9NpvcB_1vkxGcZ1-0UgUK4fMk";
 const genAI = new GoogleGenerativeAI(API_KEY);
@@ -16,14 +16,14 @@ const DEFAULT_PROMPTS = {
   words21: "Generate a vivid and engaging 21-word description of the image below. Focus on key visual elements such as colors, lighting, mood, composition, and notable objects or people.",
   words23: "Generate a vivid and engaging 23-word description of the image below. Focus on key visual elements such as colors, lighting, mood, composition, and notable objects or people.",
   words50: "Generate a vivid and engaging 50-word description of the image below. Focus on key visual elements such as colors, lighting, mood, composition, and notable objects or people.",
-  words100: "Generate a vivid and engaging 100-word description of the image below. Focus on key visual elements such as colors, lighting, mood, composition, and notable objects or people."
+  words100: "Generate a vivid and engaging 100-word description of the image below. Focus on key visual elements such as colors, lighting, mood, composition, and notable objects or people.",
 };
 
 export const generateImageDescription = async (file, promptType, customPrompt) => {
   try {
     const base64Image = await toBase64(file);
     const imageBase64 = base64Image.split(",")[1];
-    
+
     // Determine which prompt to use
     let promptText;
     if (promptType === "custom") {
@@ -52,9 +52,7 @@ export const generateImageDescription = async (file, promptType, customPrompt) =
 
     return {
       fileName: file.name,
-      description:
-        result.response.candidates?.[0]?.content?.parts?.[0]?.text ||
-        "No description found.",
+      description: result.response.candidates?.[0]?.content?.parts?.[0]?.text || "No description found.",
     };
   } catch (error) {
     console.error(`Error processing file ${file.name}:`, error);
@@ -69,10 +67,8 @@ export const processFilesInBatches = async (files, promptType, customPrompt, bat
   const results = [];
   for (let i = 0; i < files.length; i += batchSize) {
     const batch = files.slice(i, i + batchSize);
-    const batchResults = await Promise.all(
-      batch.map(file => generateImageDescription(file, promptType, customPrompt))
-    );
-    
+    const batchResults = await Promise.all(batch.map((file) => generateImageDescription(file, promptType, customPrompt)));
+
     results.push(...batchResults);
 
     // Add delay between batches to prevent rate limiting
